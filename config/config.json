@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "1234",
+    "username": "caesaroh",
+    "password": "123456",
     "database": "credito",
-    "host": "127.0.0.1",
+    "host": "www.db4free.net",
     "dialect": "mysql"
   },
   "test": {
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "caesaroh",
+    "password": "123456",
+    "database": "credito",
+    "host": "www.db4free.net",
     "dialect": "mysql"
   }
 }
