@@ -1,0 +1,25 @@
+<div>
+    <form name="form" novalidate>
+        <div class="form-group">
+            <label for="tasa">Tasa de Financiamiento</label>
+            <input ng-model="configuracion.tasa" type="text" class="form-control" name="tasa" id="tasa" onkeypress="return justNumbers(event)" required/>
+            <p ng-show="form.tasa.$error.required && b" class="text-danger">No es posible continuar, debe ingresar un Nombre. Es obligatorio</p>
+        </div>
+        <div class="form-group">
+            <label for="enganche">% Enganche</label>
+            <input ng-model="configuracion.enganche" type="text" name="enganche" id="enganche" class="form-control" onkeypress="return justNumbers(event)" required/>
+            <p ng-show="form.enganche.$error.required && b" class="text-danger">No es posible continuar, debe ingresar un RFC. Es obligatorio</p>
+        </div>
+        <div class="form-group">
+            <label for="plazoMaximo">Plazo Máximo</label>
+            <input ng-model="configuracion.plazoMaximo" type="text" name="plazoMaximo" id="plazoMaximo" class="form-control" onkeypress="return justNumbers(event)" required/>
+            <p ng-show="form.plazoMaximo.$error.required && b" class="text-danger">No es posible continuar, debe ingresar un RFC. Es obligatorio</p>
+        </div>
+        <div class="row">
+            <div class="pull-right">
+                <a href="#/main" class="btn btn-danger">Cancelar</a>
+                <a ng-click="guardar(form)" class="btn btn-success">Guardar</a>
+            </div>
+        </div>
+    </form>
+</div>

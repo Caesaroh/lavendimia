@@ -1,0 +1,141 @@
+<form name="form" novalidate>
+    <p ng-show="b && (!venta.cliente || !venta.rows.length || !total(venta.rows))" class="text-danger">Los datos ingresados no son correctos, favor de verificar</p>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><b>Registro de Ventas</b></h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="pull-right">
+                    <label>Clave: {{claveVenta}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <div class="form-group">
+                        <label>Cliente</label>
+                        <ui-select ng-model="venta.cliente" theme="bootstrap" name="cliente" ng-disabled="siguiente" required>
+                            <ui-select-match placeholder="Seleccione un Cliente">
+                                {{clave($select.selected.id) + ' - ' + $select.selected.nombre + ' ' + $select.selected.apellidoPaterno + ' ' + $select.selected.apellidoMaterno}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="cliente in clientes | filter: $select.search" refresh="getClientes($select.search)">
+                                <span ng-bind-html="clave(cliente.id) + ' - ' + cliente.nombre + ' ' + cliente.apellidoPaterno + ' ' + cliente.apellidoMaterno | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <p ng-show="form.cliente.$error.required && b" class="text-danger">Debe selecciónar un cliente</p>
+                    </div>
+                </div>
+                <div ng-show="venta.cliente" class="col col-lg-6">
+                    <p><strong>RFC: </strong>{{venta.cliente.rfc}}</p>
+                </div>
+            </div>
+            <div ng-hide="siguiente" class="row">
+                <div class="col col-lg-6">
+                    <ui-select ng-model="venta.producto" theme="bootstrap" name="tipo" required>
+                        <ui-select-match placeholder="Seleccione producto">{{clave($select.selected.id) + ' - ' + $select.selected.descripcion}}</ui-select-match>
+                        <ui-select-choices repeat="producto in productos | filter: $select.search" refresh="getProductos($select.search)">
+                            <span ng-bind-html="clave(producto.id) + ' - ' + producto.descripcion | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <p ng-show="venta.producto && !venta.producto.existencia" class="text-danger">El artículo seleccionado no cuenta con existencia, favor de verificar</p>
+                </div>
+                <div class="col col-lg-6">
+                    <div class="pull-left">
+                        <a ng-click="add(venta.producto)" class="btn btn-default pull-right" ng-disabled="!venta.producto || !venta.producto.existencia"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-12">
+                    <h4 class="pull-left">Detalle</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Modelo</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Importe</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in venta.rows track by $index">
+                            <td>{{row.descripcion}}</td>
+                            <td>{{row.modelo}}</td>
+                            <td><input ng-model="row.cantidad" type="text" class="form-control" onkeypress="return justNumbers(event)" ng-disabled="siguiente"/></td>
+                            <td>
+                                {{precio(row.precio) | currency}}
+                            </td>
+                            <td><span>{{importe(row.precio, row.cantidad) | currency}}</span></td>
+                            <td><a ng-show="venta.rows.length > 1" ng-click="remove($index)" ng-hide="siguiente"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="col col-lg-offset-6">
+                        <table class="table"><tbody>
+                            <tr>
+                                <td>Enganche: </td>
+                                <td>{{enganche(venta.rows) | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td>Bonificación Enganche: </td>
+                                <td>{{bonificacion(venta.rows) | currency}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total: </td>
+                                <td>{{total(venta.rows) | currency}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="siguiente" class="row">
+                <div class="col col-lg-12">
+                    <table class="table">
+                        <tr>
+                            <td colspan="5">ABONOS MENSUALES</td>
+                        </tr>
+                        <tr>
+                            <td>3 ABONOS DE</td>
+                            <td>{{totalPagar(venta.rows, 3) / 3 | currency}}</td>
+                            <td>{{totalPagar(venta.rows, 3) | currency}}</td>
+                            <td>SE AHORRA {{total(venta.rows) - totalPagar(venta.rows, 3) | currency}}</td>
+                            <td><input type="radio" name="total" ng-model="venta.total" ng-value="totalPagar(venta.rows, 3)"/></td>
+                        </tr>
+                        <tr>
+                            <td>6 ABONOS DE</td>
+                            <td>{{totalPagar(venta.rows, 6) / 6 | currency}}</td>
+                            <td>{{totalPagar(venta.rows, 6) | currency}}</td>
+                            <td>SE AHORRA {{total(venta.rows) - totalPagar(venta.rows, 6) | currency}}</td>
+                            <td><input type="radio" name="total" ng-model="venta.total" ng-value="totalPagar(venta.rows, 6)"/></td>
+                        </tr>
+                        <tr>
+                            <td>9 ABONOS DE</td>
+                            <td>{{totalPagar(venta.rows, 9) / 9 | currency}}</td>
+                            <td>{{totalPagar(venta.rows, 9) | currency}}</td>
+                            <td>SE AHORRA {{total(venta.rows) - totalPagar(venta.rows, 9) | currency}}</td>
+                            <td><input type="radio" name="total" ng-model="venta.total" ng-value="totalPagar(venta.rows, 9)"/></td>
+                        </tr>
+                        <tr>
+                            <td>12 ABONOS DE</td>
+                            <td>{{totalPagar(venta.rows, 12) / 12 | currency}}</td>
+                            <td>{{totalPagar(venta.rows, 12) | currency}}</td>
+                            <td>SE AHORRA {{total(venta.rows) - totalPagar(venta.rows, 12) | currency}}</td>
+                            <td><input type="radio" name="total" ng-model="venta.total" ng-value="totalPagar(venta.rows, 12)"/></td>
+                        </tr>
+                    </table>
+                    <p ng-show="errorFinanciamiento && !venta.total" class="text-danger">Debe selecciónar un plazo para realizar el pago de su compra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-right">
+            <a href="#/ventas" class="btn btn-danger">Cancelar</a>
+            <a ng-hide="siguiente" ng-click="seguir(form.$invalid)" class="btn btn-success">Siguiente</a>
+            <a ng-show="siguiente" ng-click="guardar(venta)" class="btn btn-success">Guardar</a>
+        </div>
+    </div>
+</form>
