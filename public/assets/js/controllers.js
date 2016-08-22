@@ -4,8 +4,7 @@ controladores.factory('common', ['$location', function($location) {
     return {
         clave: function (clave) {
             return ('00000' + clave).slice(-5);
-        },
-        mensaje: ''
+        }
     }
 }]);
 
@@ -46,6 +45,17 @@ controladores.controller("cliente", ['$scope', '$http', '$modal', '$location', '
                 if (response.success) {
                     modal.close();
                     $location.path("clientes");
+
+                    modal = $modal.open({
+                        templateUrl: 'partials/mensaje.html',
+                        controller: 'modalCrtl',
+                        size: 'sm',
+                        resolve: {
+                            obj: function () {
+                                return {mensaje: "El cliente ha sido guardado con éxito"};
+                            }
+                        }
+                    });
                 }
             }).error(function () {
                 modal.close();
@@ -101,6 +111,17 @@ controladores.controller("producto", ['$scope', '$http', '$modal', '$location', 
                 modal.close();
                 if (response.success) {
                     $location.path("productos");
+
+                    modal = $modal.open({
+                        templateUrl: 'partials/mensaje.html',
+                        controller: 'modalCrtl',
+                        size: 'sm',
+                        resolve: {
+                            obj: function () {
+                                return {mensaje: "El producto ha sido guardado con éxito"};
+                            }
+                        }
+                    });
                 } else {
                     $scope.error = response.error;
                 }
@@ -139,6 +160,17 @@ controladores.controller("configuracion", ['$scope', '$http', '$modal', '$locati
                 modal.close();
                 if (response.success) {
                     $location.path("main");
+
+                    modal = $modal.open({
+                        templateUrl: 'partials/mensaje.html',
+                        controller: 'modalCrtl',
+                        size: 'sm',
+                        resolve: {
+                            obj: function () {
+                                return {mensaje: "La configuración ha sido guardada con éxito"};
+                            }
+                        }
+                    });
                 } else {
                     $scope.error = response.error;
                 }
@@ -243,6 +275,17 @@ controladores.controller("venta", ['$scope', '$http', '$modal', '$location', 'co
                 modal.close();
                 if (response.success) {
                     $location.path("ventas");
+
+                    modal = $modal.open({
+                        templateUrl: 'partials/mensaje.html',
+                        controller: 'modalCrtl',
+                        size: 'sm',
+                        resolve: {
+                            obj: function () {
+                                return {mensaje: "La venta ha sido guardada con éxito"};
+                            }
+                        }
+                    });
                 }
             }).error(function () {
                 modal.close();

@@ -1,25 +1,27 @@
 <div>
-    <div class="pull-right">
-        <a href="#/ventas/nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nueva Venta</a>
+    <div class="row">
+        <div class="pull-right">
+            <a href="#/ventas/nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nueva Venta</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Folio Venta</th>
+                <th>Clave Cliente</th>
+                <th>Nombre</th>
+                <th>Total</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="venta in ventas">
+                <td>{{clave(venta.id)}}</td>
+                <td>{{clave(venta.cliente.id)}}</td>
+                <td>{{venta.cliente.nombre}} {{venta.cliente.apellidoPaterno}} {{venta.cliente.apellidoMaterno}}</td>
+                <td>{{venta.total | currency}}</td>
+                <td>{{fecha(venta.fecha)}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Folio Venta</th>
-            <th>Clave Cliente</th>
-            <th>Nombre</th>
-            <th>Total</th>
-            <th>Fecha</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="venta in ventas">
-            <td>{{clave(venta.id)}}</td>
-            <td>{{clave(venta.cliente.id)}}</td>
-            <td>{{venta.cliente.nombre}} {{venta.cliente.apellidoPaterno}} {{venta.cliente.apellidoMaterno}}</td>
-            <td>{{venta.total | currency}}</td>
-            <td>{{fecha(venta.fecha)}}</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
