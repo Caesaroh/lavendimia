@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "caesaroh",
-    "password": "123456",
-    "database": "credito",
-    "host": "www.db4free.net",
-    "dialect": "mysql"
+    "username": "ospmuhijowqkfs",
+    "password": "eO2CKry25mHNFJ9PgONUd6pcLG",
+    "database": "d6oqvd6atd8g3q",
+    "host": "ec2-54-243-249-154.compute-1.amazonaws.com",
+    "dialect": "postgres"
   }
 }

@@ -31,13 +31,16 @@
             </div>
             <div ng-hide="siguiente" class="row">
                 <div class="col col-lg-6">
-                    <ui-select ng-model="venta.producto" theme="bootstrap" name="tipo" required>
-                        <ui-select-match placeholder="Seleccione producto">{{clave($select.selected.id) + ' - ' + $select.selected.descripcion}}</ui-select-match>
-                        <ui-select-choices repeat="producto in productos | filter: $select.search" refresh="getProductos($select.search)">
-                            <span ng-bind-html="clave(producto.id) + ' - ' + producto.descripcion | highlight: $select.search"></span>
-                        </ui-select-choices>
-                    </ui-select>
-                    <p ng-show="venta.producto && !venta.producto.existencia" class="text-danger">El artículo seleccionado no cuenta con existencia, favor de verificar</p>
+                    <div class="form-group">
+                        <label>Artículo</label>
+                        <ui-select ng-model="venta.producto" theme="bootstrap" name="tipo" required>
+                            <ui-select-match placeholder="Seleccione producto">{{clave($select.selected.id) + ' - ' + $select.selected.descripcion}}</ui-select-match>
+                            <ui-select-choices repeat="producto in productos | filter: $select.search" refresh="getProductos($select.search)">
+                                <span ng-bind-html="clave(producto.id) + ' - ' + producto.descripcion | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                        <p ng-show="venta.producto && !venta.producto.existencia" class="text-danger">El artículo seleccionado no cuenta con existencia, favor de verificar</p>
+                    </div>
                 </div>
                 <div class="col col-lg-6">
                     <div class="pull-left">
